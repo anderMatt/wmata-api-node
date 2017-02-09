@@ -1,0 +1,28 @@
+{
+  "name": "wmata-api-node",
+  "version": "1.0.0",
+  "description": "Washington Metropolitan Area Transit Authority Node API Wrapper",
+  "author": [
+    "Matthew Anderson <matt10.anderson@gmail.com> (https://anderMatt.github.io"
+  ],
+  "main": "./lib/server.js",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/anderMatt/wmata-api-node.git"
+  },
+  "bugs": {
+    "url": "https://github.com/anderMatt/wmata-api-node/issues"
+  },
+  "keywords": [
+    "wmata",
+    "api",
+    "metro"
+  ],
+  "license": "ISC",
+  "dependencies": {
+    "request": "^2.79.0"
+  },
+  "devDependencies": {
+    "express": "^4.14.1"
+  }
+}

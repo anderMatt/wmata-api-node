@@ -119,4 +119,52 @@ describe('Wmata API', function(){
                 });
         });
     });
+
+    describe('#getTrainPositions', function(){
+        it('should retrieve train positions', function(){
+            var api = new WmataApi();
+            sinon.stub(api, '_makeApiRequest', function(url){
+                url.should.equal(`${endpoints.train.positions}`);
+                return Promise.resolve({TrainPositions: []});
+            });
+
+            return api.getTrainPositions()
+                .then(function(data){
+                    data.should.contain.keys('TrainPositions');
+                });
+        });
+    });
+
+    describe('#getTrainPredictions', function(){
+        it('should retrieve train predictions', function(){
+            var api = new WmataApi();
+            var stationCode = 'B10';
+
+            sinon.stub(api, '_makeApiRequest', function(url){
+                url.should.equal(`${endpoints.train.predictions}/${stationCode}`);
+                return Promise.resolve({Trains: []});
+            });
+
+            return api.getTrainPredictions(stationCode)
+                .then(function(data){
+                    data.should.have.keys('Trains');
+                });
+        });
+
+        it('should retrieve error when no station code passed', function(){
+            var api = new WmataApi();
+            var stationCode = undefined;
+
+            var apiCall = sinon.stub(api, '_makeApiRequest', function(){
+                //
+            });
+
+            api.getTrainPredictions(stationCode)
+                .then(function(data){
+                    //
+                }, function(err){
+                    apiCall.callCount.should.equal(0);
+                });
+        });
+    });
 });

@@ -3,8 +3,7 @@ const sinon = require('sinon');
 var should = chai.should();
 var WmataApi = require('../lib/server');
 var endpoints = require('../lib/endpoints');
-
-var assert = require('assert');
+var WmataApiError = require('../lib/wmata-api-error');
 
 describe('Wmata API', function(){
     it('should set API key', function(){
@@ -14,9 +13,52 @@ describe('Wmata API', function(){
         api.getApiKey().should.equal(key);
     });
 
+    describe('#_validateBusPositionOptions', function(){
+        var api;
+
+        beforeEach(function(){
+            api = new WmataApi();
+        });
+
+        it('should receive no error when no options', function(){
+            var opts = {};
+            var errs = api._validateBusPositionOptions(opts);
+            should.not.exist(errs);
+        });
+
+        it('should receive no error when valid options', function(){
+            var opts = {
+                routeId: 'D2',
+                lat: '38.918308',
+                lon: '-77.096014',
+                radius: 5
+            };
+
+            var errs = api._validateBusPositionOptions(opts);
+            should.not.exist(errs);
+        });
+
+        it('should receive error when invalid options', function(){
+            var opts = {
+                routeId: 'D2',
+                lat: '38.918308',
+                lon: '-77.096014'
+                //radius is missing
+            };
+
+            var errs = api._validateBusPositionOptions(opts);
+            errs.should.have.keys('Search Area');
+        });
+    });
+    
     describe('#getBusPositions', function(){
+        var api;
+
+        beforeEach(function(){
+            api = new WmataApi;
+        });
+
         it('should retrieve bus positions', function(){
-           var api = new WmataApi(); 
            var opts = {
                routeId: 'D2',
                radius: 5,
@@ -36,19 +78,44 @@ describe('Wmata API', function(){
             });
         });
 
-        it('should retrieve error with invalid options', function(){
+        it('should not retrieve bus positions when validation fails', function(){
+            sinon.stub(api, '_validateBusPositionOptions', function(){
+                return {errors: 'there are errors'};
+            });
 
-            var api = new WmataApi();
-
-            sinon.stub(api, '_validateBusPositionOptions', function(){ 
-                return {'radius': 'Must be greater than zero'}; //a validation error.
+           var apiCall = sinon.stub(api, '_makeApiRequest', function(){ //stub to prevent accidental XHR.
+                return;
             });
 
             return api.getBusPositions()
                 .then(function(){
                     //
+                }, function(){
+                    apiCall.callCount.should.equal(0);
+                });
+        });
+    });
+
+    describe('#getBusPredictions', function(){
+        var api;
+
+        beforeEach(function(){
+            api = new WmataApi();
+        });
+
+        it('should receive error when bus stop does not exist', function(){
+            var fakeBusStop = 0;
+            sinon.stub(api, '_makeApiRequest', function(url){
+                url.should.equal(`${endpoints.bus.predictions}?StopId=0`);
+                return Promise.reject(new WmataApiError(`Bus stop "${fakeBusStop}" does not exist!`, 400));
+            });
+
+            return api.getBusPredictions(fakeBusStop)
+                .then(function(){
+                    //
                 }, function(err){
-                    err.radius.should.equal('Must be greater than zero');
+                    err.statusCode.should.equal(400);
+                    err.msg.should.equal(`Bus stop "${fakeBusStop}" does not exist!`)
                 });
         });
     });

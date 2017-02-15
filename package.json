@@ -18,6 +18,10 @@
     "api",
     "metro"
   ],
+  "scripts": {
+    "test": "node_modules/.bin/mocha test/wmata-api.js",
+    "ci": "npm run test"
+  },
   "license": "ISC",
   "dependencies": {
     "request": "^2.79.0"

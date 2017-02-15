@@ -2,6 +2,7 @@ Washington Metropolitan Transit Authory API Node
 ============================================
 
 [![Tests](https://travis-ci.org/anderMatt/wmata-api-node.svg?branch=master)](https://travis-ci.org/anderMatt/wmata-api-node)
+[![Coverage Status](https://coveralls.io/repos/anderMatt/wmata-api-node/badge.svg)](https://coveralls.io/r/anderMatt/wmata-api-node)
 
 This is a wrapper for the [WMATA Web API](https://developer.wmata.com) that
 runs on Node.JS.

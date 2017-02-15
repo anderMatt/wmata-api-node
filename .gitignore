@@ -2,3 +2,4 @@ node_modules/
 */**/*.swp
 conf.json
 out/
+coverage/

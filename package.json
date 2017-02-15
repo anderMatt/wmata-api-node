@@ -19,7 +19,9 @@
     "metro"
   ],
   "scripts": {
-    "test": "node_modules/.bin/mocha test/wmata-api.js",
+    "test": "node_modules/.bin/mocha",
+    "cover": "node_modules/.bin/istanbul cover _mocha",
+    "coveralls": "npm run cover -- --report lcovonly && cat ./coverage/lcov.info | node_modules/coveralls/bin/coveralls.js",
     "ci": "npm run test"
   },
   "license": "ISC",
@@ -28,8 +30,11 @@
   },
   "devDependencies": {
     "chai": "^3.5.0",
+    "coveralls": "^2.11.16",
     "express": "^4.14.1",
+    "istanbul": "^0.4.5",
     "mocha": "^3.2.0",
+    "mocha-lcov-reporter": "^1.2.0",
     "sinon": "^1.17.7"
   }
 }

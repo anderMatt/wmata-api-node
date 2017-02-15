@@ -1,6 +1,8 @@
 Washington Metropolitan Transit Authory API Node
 ============================================
 
+[![Tests](https://travis-ci.org/anderMatt/wmata-api-node.svg?branch=master)](https://travis-ci.org/anderMatt/wmata-api-node)
+
 This is a wrapper for the [WMATA Web API](https://developer.wmata.com) that
 runs on Node.JS.
 
@@ -45,7 +47,7 @@ wmataApi.getBusPositions('D2')
 ```
 
 ### Authorization
-You must provide an API key to the wrapper at instantiation. See [WMATA's APIdocumentation](https://developer.wmata.com) for steps on obtaining your free API key.
+You must provide an API key to the wrapper at instantiation. See [WMATA's API documentation](https://developer.wmata.com) for steps on obtaining your free API key.
 
 ## Development
 

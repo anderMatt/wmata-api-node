@@ -120,6 +120,23 @@ describe('Wmata API', function(){
         });
     });
 
+    describe('#getBusIncidents', function(){
+        it('should retrieve bus incidents', function(){
+            var api = new WmataApi();
+            var route = 'D2';
+
+            sinon.stub(api, '_makeApiRequest', function(url){
+                url.should.equal(`${endpoints.bus.incidents}?Route=D2`);
+                return Promise.resolve({BusIncidents: []});
+            });
+
+            return api.getBusIncidents(route)
+                .then(function(data){
+                    data.should.contain.keys('BusIncidents');
+                });
+        });
+    })
+
     describe('#getTrainPositions', function(){
         it('should retrieve train positions', function(){
             var api = new WmataApi();
@@ -164,6 +181,22 @@ describe('Wmata API', function(){
                     //
                 }, function(err){
                     apiCall.callCount.should.equal(0);
+                });
+        });
+    });
+
+    describe("getTrainIncidents", function(){
+        it('should retrieve train incidents', function(){
+            var api = new WmataApi();
+            
+            sinon.stub(api, '_makeApiRequest', function(url){
+                url.should.equal(`${endpoints.train.incidents}`);
+                return Promise.resolve({Incidents: []});
+            });
+
+            return api.getTrainIncidents()
+                .then(function(data){
+                    data.should.contain.keys('Incidents');
                 });
         });
     });

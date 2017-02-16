@@ -1,4 +1,4 @@
-Washington Metropolitan Transit Authory API Node
+Washington Metropolitan Area Transit Authority API Node.JS Wrapper
 ============================================
 
 [![Tests](https://travis-ci.org/anderMatt/wmata-api-node.svg?branch=master)](https://travis-ci.org/anderMatt/wmata-api-node)
@@ -37,7 +37,7 @@ var wmataApi = new WmataApi('mysupersecretkey123');
 
 Use the wrapper's methods to make requests to WMATA's web API. Methods use promises, so be sure to provide success and error handlers.
 ```javascript
-// Get bus positions for the D2 line
+// Get bus positions for the D2 line 
 wmataApi.getBusPositions('D2')
     .then(data => {
         console.log('Bus positions', data.BusPositions);
@@ -55,4 +55,4 @@ You must provide an API key to the wrapper at instantiation. See [WMATA's API do
 Discover a bug, or have improvements? [Open an issue](https://github.com/anderMatt/wmata-api-node/issues/new) or clone the project and send a pull request with your changes!
 
 ### Running tests
-You can run unit tests by executing `mocha` in the test directory.
+You can run unit tests by executing `mocha`.
